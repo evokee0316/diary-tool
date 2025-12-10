@@ -1,0 +1,415 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.6">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="zh-CN"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;每日能量管理打卡&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>:root {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--primary-color: #007AFF;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--bg-color: #f5f5f7;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--card-bg: #ffffff;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--text-color: #1d1d1f;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--border-radius: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--success-color: #34C759;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--bg-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>line-height: 1.5;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.container {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>max-width: 600px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin: 0 auto;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>h1 {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.status-bar {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: var(--card-bg);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 15px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: var(--border-radius);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: space-between;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 2px 10px rgba(0,0,0,0.05);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.date-display {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: bold;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #86868b;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>select {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 5px 10px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid #d2d2d7;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.card {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: var(--card-bg);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: var(--border-radius);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 15px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 2px 5px rgba(0,0,0,0.03);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: transform 0.2s;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.card:hover {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transform: translateY(-2px);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.card-header {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: space-between;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 15px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-bottom: 1px solid #f0f0f0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding-bottom: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.time-tag {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: #e8e8ed;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 4px 8px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 6px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.85rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.phase-name {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: bold;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--primary-color);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.action-group {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex-direction: column;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>gap: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.checkbox-btn {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid #e5e5e5;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: all 0.2s;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.checkbox-btn.checked {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #e8fce8;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-color: var(--success-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #006400;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.checkbox-btn input[type="checkbox"] {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-right: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transform: scale(1.2);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.input-field {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid #d2d2d7;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 5px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-sizing: border-box;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: inherit;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.export-section {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 30px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding-bottom: 50px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.btn-primary {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--primary-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: white;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 15px 30px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 30px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1.1rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: bold;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 4px 12px rgba(0,122,255,0.3);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: background 0.2s;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.btn-primary:active {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #005ecb;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.hidden-textarea {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>left: -9999px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Toast notification */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#toast {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>visibility: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>min-width: 250px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #333;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #fff;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: fixed;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>z-index: 1;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>left: 50%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>bottom: 30px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transform: translateX(-50%);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 17px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>#toast.show {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>visibility: visible;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>animation: fadein 0.5s, fadeout 0.5s 2.5s;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>@keyframes fadein {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>from {bottom: 0; opacity: 0;}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>to {bottom: 30px; opacity: 1;}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>@keyframes fadeout {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>from {bottom: 30px; opacity: 1;}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>to {bottom: 0; opacity: 0;}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;div class="container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h1&gt;⚡️ 每日能量管理&lt;/h1&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="status-bar"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="date-display" id="currentDate"&gt;&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;select id="energyStatus"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;option value="🟢 旺盛"&gt;状态: 🟢 旺盛&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;option value="🟡 平稳" selected&gt;状态: 🟡 平稳&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;option value="🔴 疲惫"&gt;状态: 🔴 疲惫&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- 08:30 - 09:00 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="card-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="time-tag"&gt;08:30 - 09:00&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="phase-name"&gt;🌱 启动阶段&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="action-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label class="checkbox-btn" onclick="toggleCheck(this)"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;input type="checkbox" id="check_water_am"&gt; 200ml 温水唤醒</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="text" class="input-field" id="input_breakfast" placeholder="🥣 早餐吃了什么？"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- 09:00 - 10:30 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="card-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="time-tag"&gt;09:00 - 10:30&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="phase-name"&gt;🔥 爆破阶段 (核心)&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="action-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="text" class="input-field" id="input_top1_task" placeholder="🎯 输入今日 Top 1 核心任务"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label class="checkbox-btn" onclick="toggleCheck(this)"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;input type="checkbox" id="check_focus_90"&gt; 专注90分钟达成</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label class="checkbox-btn" onclick="toggleCheck(this)"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;input type="checkbox" id="check_drink_supply"&gt; 慢饮补给完成</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- 10:30 - 12:00 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="card-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="time-tag"&gt;10:30 - 12:00&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="phase-name"&gt;🔄 调节阶段&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="action-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="text" class="input-field" id="input_rest_activity" placeholder="🚶 做了什么休息活动？(如远眺)"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="text" class="input-field" id="input_task_2" placeholder="📚 第二任务内容"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- 12:00 - 13:30 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="card-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="time-tag"&gt;12:00 - 13:30&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="phase-name"&gt;🧘‍♀️ 养心午休&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="action-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="text" class="input-field" id="input_lunch" placeholder="🥗 午餐内容"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label class="checkbox-btn" onclick="toggleCheck(this)"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;input type="checkbox" id="check_nap"&gt; 静坐/午休完成</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- 13:30 - 17:30 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="card-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="time-tag"&gt;13:30 - 17:30&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="phase-name"&gt;⚖️ 切换模式&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="action-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;select id="afternoon_mode" class="input-field" style="margin-bottom: 10px;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;option value="A. 爆破模式 (高强度)"&gt;当前模式：A. 爆破 (高强度)&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;option value="B. 冷却模式 (整理/画图)"&gt;当前模式：B. 冷却 (整理/画图)&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;textarea class="input-field" id="input_pm_tasks" rows="3" placeholder="📝 下午任务清单 (换行分隔)"&gt;&lt;/textarea&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label class="checkbox-btn" onclick="toggleCheck(this)"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;input type="checkbox" id="check_snack"&gt; 下午加餐 (水果/坚果)</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- 17:30 - 19:00 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="card-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="time-tag"&gt;17:30 - 19:00&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="phase-name"&gt;🏃 释压阶段&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="action-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="text" class="input-field" id="input_exercise" placeholder="🏃 运动项目"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="text" class="input-field" id="input_dinner" placeholder="🍲 晚餐内容 (清淡)"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- 20:30 - 22:30 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="card-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="time-tag"&gt;20:30 - 22:30&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="phase-name"&gt;🌙 修复阶段&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="action-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label class="checkbox-btn" onclick="toggleCheck(this)"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;input type="checkbox" id="check_no_phone"&gt; 屏幕宵禁 (远离手机)</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label class="checkbox-btn" onclick="toggleCheck(this)"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;input type="checkbox" id="check_foot_bath"&gt; 热水泡脚</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="text" class="input-field" id="input_audio" placeholder="🎧 睡前音频/书籍"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- 复盘 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="card-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="phase-name"&gt;💡 每日复盘&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;textarea class="input-field" id="input_review" rows="3" placeholder="身体感觉如何？何时效率最高？"&gt;&lt;/textarea&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="export-section"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="btn-primary" onclick="generateAndCopy()"&gt;📋 复制今日打卡记录&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p style="font-size: 0.8rem; color: #888; margin-top: 10px;"&gt;点击后可直接粘贴到 Mac 备忘录或微信&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;div id="toast"&gt;已复制到剪贴板！去粘贴吧 🎉&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// 初始化日期</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const dateOptions = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('currentDate').textContent = new Date().toLocaleDateString('zh-CN', dateOptions);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// 交互效果：点击整行触发 checkbox</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function toggleCheck(element) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// 这里的逻辑是为了视觉效果，实际点击 label 会自动触发内部 checkbox</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// 我们只需要监听 change 事件来改变样式</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const checkbox = element.querySelector('input[type="checkbox"]');</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// 稍微延迟一点等待 checkbox 状态变化</p>
+<p class="p1"><span class="Apple-converted-space">        </span>setTimeout(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (checkbox.checked) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>element.classList.add('checked');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>element.classList.remove('checked');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}, 50);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// 生成并复制文本</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function generateAndCopy() {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const date = document.getElementById('currentDate').textContent;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const status = document.getElementById('energyStatus').value;</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// 获取数据辅助函数</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const getVal = (id) =&gt; document.getElementById(id).value || "未填写";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const getCheck = (id) =&gt; document.getElementById(id).checked ? "✅ 已完成" : "⭕️ 未完成";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const getCheckSimple = (id) =&gt; document.getElementById(id).checked ? "✅" : "⭕️";</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>let report = `📋 **每日能量报告**\n`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>report += `📅 ${date}\n`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>report += `🔋 ${status}\n\n`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>report += `--- ☀️ 上午 ---\n`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>report += `08:30 🌱 启动: ${getCheck('check_water_am')} 喝水 | 🥣 ${getVal('input_breakfast')}\n`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>report += `09:00 🔥 核心: ${getVal('input_top1_task')}\n`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>report += `<span class="Apple-converted-space">      </span>└─ 专注: ${getCheckSimple('check_focus_90')} | 补给: ${getCheckSimple('check_drink_supply')}\n`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>report += `10:30 🔄 调节: 🚶 ${getVal('input_rest_activity')} | 📚 ${getVal('input_task_2')}\n\n`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>report += `--- 🌤 中午 ---\n`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>report += `12:00 🧘‍♀️ 养心: 🥗 ${getVal('input_lunch')} | 😴 ${getCheck('check_nap')}\n\n`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>report += `--- 🌥 下午 ---\n`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>report += `13:30 ⚖️ 模式: ${document.getElementById('afternoon_mode').value}\n`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>report += `📝 任务清单:\n${document.getElementById('input_pm_tasks').value ? document.getElementById('input_pm_tasks').value : " <span class="Apple-converted-space">  </span>(无记录)"}\n`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>report += `🍎 加餐: ${getCheck('check_snack')}\n\n`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>report += `--- 🌙 晚间 ---\n`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>report += `17:30 🏃 释压: 🏃 ${getVal('input_exercise')} | 🍲 ${getVal('input_dinner')}\n`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>report += `20:30 🌙 修复: 📵 ${getCheckSimple('check_no_phone')} 禁屏 | 🦶 ${getCheckSimple('check_foot_bath')} 泡脚 | 🎧 ${getVal('input_audio')}\n\n`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>report += `💡 **复盘**: ${getVal('input_review')}`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// 复制到剪贴板</p>
+<p class="p1"><span class="Apple-converted-space">        </span>navigator.clipboard.writeText(report).then(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>showToast();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}).catch(err =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>console.error('复制失败: ', err);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>alert("复制失败，请手动复制。");</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function showToast() {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const x = document.getElementById("toast");</p>
+<p class="p1"><span class="Apple-converted-space">        </span>x.className = "show";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1">&lt;/script&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
