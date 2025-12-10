@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日能量管理打卡</title>
+    <style>
+        :root {
+            --primary-color: #007AFF;
+            --bg-color: #f5f5f7;
+            --card-bg: #ffffff;
+            --text-color: #1d1d1f;
+            --border-radius: 12px;
+            --success-color: #34C759;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .status-bar {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .date-display {
+            font-weight: bold;
+            color: #86868b;
+        }
+
+        select {
+            padding: 5px 10px;
+            border-radius: 8px;
+            border: 1px solid #d2d2d7;
+            font-size: 1rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+
+        .time-tag {
+            background: #e8e8ed;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .phase-name {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .action-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .checkbox-btn {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 10px;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .checkbox-btn.checked {
+            background-color: #e8fce8;
+            border-color: var(--success-color);
+            color: #006400;
+        }
+
+        .checkbox-btn input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d2d2d7;
+            border-radius: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .export-section {
+            text-align: center;
+            margin-top: 30px;
+            padding-bottom: 50px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,122,255,0.3);
+            transition: background 0.2s;
+        }
+
+        .btn-primary:active {
+            background-color: #005ecb;
+        }
+
+        .hidden-textarea {
+            position: absolute;
+            left: -9999px;
+        }
+        
+        /* Toast notification */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 17px;
+        }
+
+        #toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+
+        @keyframes fadeout {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0; opacity: 0;}
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>⚡️ 每日能量管理</h1>
+    
+    <div class="status-bar">
+        <span class="date-display" id="currentDate"></span>
+        <select id="energyStatus">
+            <option value="🟢 旺盛">状态: 🟢 旺盛</option>
+            <option value="🟡 平稳" selected>状态: 🟡 平稳</option>
+            <option value="🔴 疲惫">状态: 🔴 疲惫</option>
+        </select>
+    </div>
+
+    <!-- 08:30 - 09:00 -->
+    <div class="card">
+        <div class="card-header">
+            <span class="time-tag">08:30 - 09:00</span>
+            <span class="phase-name">🌱 启动阶段</span>
+        </div>
+        <div class="action-group">
+            <label class="checkbox-btn" onclick="toggleCheck(this)">
+                <input type="checkbox" id="check_water_am"> 200ml 温水唤醒
+            </label>
+            <input type="text" class="input-field" id="input_breakfast" placeholder="🥣 早餐吃了什么？">
+        </div>
+    </div>
+
+    <!-- 09:00 - 10:30 -->
+    <div class="card">
+        <div class="card-header">
+            <span class="time-tag">09:00 - 10:30</span>
+            <span class="phase-name">🔥 爆破阶段 (核心)</span>
+        </div>
+        <div class="action-group">
+            <input type="text" class="input-field" id="input_top1_task" placeholder="🎯 输入今日 Top 1 核心任务">
+            <label class="checkbox-btn" onclick="toggleCheck(this)">
+                <input type="checkbox" id="check_focus_90"> 专注90分钟达成
+            </label>
+            <label class="checkbox-btn" onclick="toggleCheck(this)">
+                <input type="checkbox" id="check_drink_supply"> 慢饮补给完成
+            </label>
+        </div>
+    </div>
+
+    <!-- 10:30 - 12:00 -->
+    <div class="card">
+        <div class="card-header">
+            <span class="time-tag">10:30 - 12:00</span>
+            <span class="phase-name">🔄 调节阶段</span>
+        </div>
+        <div class="action-group">
+            <input type="text" class="input-field" id="input_rest_activity" placeholder="🚶 做了什么休息活动？(如远眺)">
+            <input type="text" class="input-field" id="input_task_2" placeholder="📚 第二任务内容">
+        </div>
+    </div>
+
+    <!-- 12:00 - 13:30 -->
+    <div class="card">
+        <div class="card-header">
+            <span class="time-tag">12:00 - 13:30</span>
+            <span class="phase-name">🧘‍♀️ 养心午休</span>
+        </div>
+        <div class="action-group">
+            <input type="text" class="input-field" id="input_lunch" placeholder="🥗 午餐内容">
+            <label class="checkbox-btn" onclick="toggleCheck(this)">
+                <input type="checkbox" id="check_nap"> 静坐/午休完成
+            </label>
+        </div>
+    </div>
+
+    <!-- 13:30 - 17:30 -->
+    <div class="card">
+        <div class="card-header">
+            <span class="time-tag">13:30 - 17:30</span>
+            <span class="phase-name">⚖️ 切换模式</span>
+        </div>
+        <div class="action-group">
+            <select id="afternoon_mode" class="input-field" style="margin-bottom: 10px;">
+                <option value="A. 爆破模式 (高强度)">当前模式：A. 爆破 (高强度)</option>
+                <option value="B. 冷却模式 (整理/画图)">当前模式：B. 冷却 (整理/画图)</option>
+            </select>
+            <textarea class="input-field" id="input_pm_tasks" rows="3" placeholder="📝 下午任务清单 (换行分隔)"></textarea>
+            <label class="checkbox-btn" onclick="toggleCheck(this)">
+                <input type="checkbox" id="check_snack"> 下午加餐 (水果/坚果)
+            </label>
+        </div>
+    </div>
+
+    <!-- 17:30 - 19:00 -->
+    <div class="card">
+        <div class="card-header">
+            <span class="time-tag">17:30 - 19:00</span>
+            <span class="phase-name">🏃 释压阶段</span>
+        </div>
+        <div class="action-group">
+            <input type="text" class="input-field" id="input_exercise" placeholder="🏃 运动项目">
+            <input type="text" class="input-field" id="input_dinner" placeholder="🍲 晚餐内容 (清淡)">
+        </div>
+    </div>
+
+    <!-- 20:30 - 22:30 -->
+    <div class="card">
+        <div class="card-header">
+            <span class="time-tag">20:30 - 22:30</span>
+            <span class="phase-name">🌙 修复阶段</span>
+        </div>
+        <div class="action-group">
+            <label class="checkbox-btn" onclick="toggleCheck(this)">
+                <input type="checkbox" id="check_no_phone"> 屏幕宵禁 (远离手机)
+            </label>
+            <label class="checkbox-btn" onclick="toggleCheck(this)">
+                <input type="checkbox" id="check_foot_bath"> 热水泡脚
+            </label>
+            <input type="text" class="input-field" id="input_audio" placeholder="🎧 睡前音频/书籍">
+        </div>
+    </div>
+    
+    <!-- 复盘 -->
+    <div class="card">
+        <div class="card-header">
+            <span class="phase-name">💡 每日复盘</span>
+        </div>
+        <textarea class="input-field" id="input_review" rows="3" placeholder="身体感觉如何？何时效率最高？"></textarea>
+    </div>
+
+    <div class="export-section">
+        <button class="btn-primary" onclick="generateAndCopy()">📋 复制今日打卡记录</button>
+        <p style="font-size: 0.8rem; color: #888; margin-top: 10px;">点击后可直接粘贴到 Mac 备忘录或微信</p>
+    </div>
+</div>
+
+<div id="toast">已复制到剪贴板！去粘贴吧 🎉</div>
+
+<script>
+    // 初始化日期
+    const dateOptions = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+    document.getElementById('currentDate').textContent = new Date().toLocaleDateString('zh-CN', dateOptions);
+
+    // 交互效果：点击整行触发 checkbox
+    function toggleCheck(element) {
+        // 这里的逻辑是为了视觉效果，实际点击 label 会自动触发内部 checkbox
+        // 我们只需要监听 change 事件来改变样式
+        const checkbox = element.querySelector('input[type="checkbox"]');
+        
+        // 稍微延迟一点等待 checkbox 状态变化
+        setTimeout(() => {
+            if (checkbox.checked) {
+                element.classList.add('checked');
+            } else {
+                element.classList.remove('checked');
+            }
+        }, 50);
+    }
+
+    // 生成并复制文本
+    function generateAndCopy() {
+        const date = document.getElementById('currentDate').textContent;
+        const status = document.getElementById('energyStatus').value;
+        
+        // 获取数据辅助函数
+        const getVal = (id) => document.getElementById(id).value || "未填写";
+        const getCheck = (id) => document.getElementById(id).checked ? "✅ 已完成" : "⭕️ 未完成";
+        const getCheckSimple = (id) => document.getElementById(id).checked ? "✅" : "⭕️";
+
+        let report = `📋 **每日能量报告**\n`;
+        report += `📅 ${date}\n`;
+        report += `🔋 ${status}\n\n`;
+
+        report += `--- ☀️ 上午 ---\n`;
+        report += `08:30 🌱 启动: ${getCheck('check_water_am')} 喝水 | 🥣 ${getVal('input_breakfast')}\n`;
+        report += `09:00 🔥 核心: ${getVal('input_top1_task')}\n`;
+        report += `      └─ 专注: ${getCheckSimple('check_focus_90')} | 补给: ${getCheckSimple('check_drink_supply')}\n`;
+        report += `10:30 🔄 调节: 🚶 ${getVal('input_rest_activity')} | 📚 ${getVal('input_task_2')}\n\n`;
+
+        report += `--- 🌤 中午 ---\n`;
+        report += `12:00 🧘‍♀️ 养心: 🥗 ${getVal('input_lunch')} | 😴 ${getCheck('check_nap')}\n\n`;
+
+        report += `--- 🌥 下午 ---\n`;
+        report += `13:30 ⚖️ 模式: ${document.getElementById('afternoon_mode').value}\n`;
+        report += `📝 任务清单:\n${document.getElementById('input_pm_tasks').value ? document.getElementById('input_pm_tasks').value : "   (无记录)"}\n`;
+        report += `🍎 加餐: ${getCheck('check_snack')}\n\n`;
+
+        report += `--- 🌙 晚间 ---\n`;
+        report += `17:30 🏃 释压: 🏃 ${getVal('input_exercise')} | 🍲 ${getVal('input_dinner')}\n`;
+        report += `20:30 🌙 修复: 📵 ${getCheckSimple('check_no_phone')} 禁屏 | 🦶 ${getCheckSimple('check_foot_bath')} 泡脚 | 🎧 ${getVal('input_audio')}\n\n`;
+
+        report += `💡 **复盘**: ${getVal('input_review')}`;
+
+        // 复制到剪贴板
+        navigator.clipboard.writeText(report).then(() => {
+            showToast();
+        }).catch(err => {
+            console.error('复制失败: ', err);
+            alert("复制失败，请手动复制。");
+        });
+    }
+
+    function showToast() {
+        const x = document.getElementById("toast");
+        x.className = "show";
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+    }
+</script>
+
+</body>
+</html>
